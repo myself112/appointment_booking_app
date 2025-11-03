@@ -24,8 +24,11 @@ function BookingForm({ defaultStart, onDone, onCancel }) {
 
     setLoading(true);
     try {
+      // construct ISO with explicit IST offset (+05:30)
+      // This ensures backend receives correct IST time regardless of client timezone.
+      const startISO = `${defaultStart.date}T${defaultStart.time}:00+05:30`;
       await createAppointment({
-        startDateTime: defaultStart,
+        startDateTime: startISO,
         name,
         email,
         phone,
@@ -79,7 +82,7 @@ function BookingForm({ defaultStart, onDone, onCancel }) {
         })()}
       </h3> */}
 
-      <h3>
+      {/* <h3>
         Book{" "}
         {(() => {
           const d = new Date(defaultStart);
@@ -99,6 +102,10 @@ function BookingForm({ defaultStart, onDone, onCancel }) {
             year: "numeric",
           });
         })()}
+      </h3> */}
+
+      <h3>
+        Book {defaultStart.date} {defaultStart.time}
       </h3>
 
       <form onSubmit={submit}>
