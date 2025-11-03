@@ -39,26 +39,13 @@ const availableAppointments = async (req, res) => {
       const ist = new Date(d.getTime() + 5.5 * 60 * 60 * 1000); // convert UTC→IST
       return ist.toISOString().slice(0, 16); // up to minutes
     }
-    // const bookedSet = new Set(
-    //   appts.map((a) => new Date(a.startDateTime).toISOString())
-    // );
 
     const bookedSet = new Set(appts.map((a) => toISTKey(a.startDateTime)));
-
-    // const annotated = slots.map((s) => ({
-    //   ...s,
-    //   available: !bookedSet.has(new Date(s.start).toISOString()),
-    // }));
 
     const annotated = slots.map((s) => {
       const key = toISTKey(s.start);
       return { ...s, available: !bookedSet.has(key) };
     });
-    console.log(
-      "bookedSet sample IST keys:",
-      Array.from(bookedSet).slice(0, 5)
-    );
-    console.log("first slot key:", toISTKey(slots[0].start));
 
     res.json({ success: true, data: annotated });
   } catch (err) {
@@ -89,12 +76,6 @@ const createAppointments = async (req, res) => {
 
     const start = new Date(startDateTime);
 
-    // const start = new Date(
-    //   `${startDateTime.date}T${startDateTime.time}:00+05:30`
-    // ); // reconstrcting ISO string manually
-
-    // 2025-11-03T09:00:00Z  =>  2025-11-03T03:30:00Z
-
     if (isNaN(start.getTime())) {
       return res
         .status(400)
@@ -115,17 +96,11 @@ const createAppointments = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Bookings allowed only Mon-Fri" });
     }
-    // const hour = start.getHours();
-    // const minute = start.getMinutes();
 
     // convert all checks in UTC (Render runs in UTC)
     const hour = start.getUTCHours();
     const minute = start.getUTCMinutes();
     if (
-      // hour < 9 ||
-      // hour > 16 ||
-      // (hour === 16 && minute > 30) ||
-      // (minute !== 0 && minute !== 30)
       hour < 3 ||
       hour > 11 ||
       (hour === 3 && minute < 30) ||

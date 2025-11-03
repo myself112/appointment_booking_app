@@ -5,7 +5,7 @@ import BookingForm from "./BookingForm";
 function CalendarWeek({ refreshFlag, setRefreshFlag }) {
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSlot, setSelectedSlot] = useState(null); // ISO string (was, but now it is an object with date and time directly to prevent offset mismatch)
+  const [selectedSlot, setSelectedSlot] = useState(null);
 
   useEffect(() => {
     load();
@@ -24,9 +24,6 @@ function CalendarWeek({ refreshFlag, setRefreshFlag }) {
     grouped[s.date].push(s);
   });
 
-  useEffect(() => {
-    console.log("selecetedslot ::", selectedSlot);
-  }, [selectedSlot]);
   return (
     <div>
       <h2>Week view (Mon–Fri)</h2>
@@ -41,11 +38,7 @@ function CalendarWeek({ refreshFlag, setRefreshFlag }) {
             >
               <h4>{date}</h4>
               {grouped[date].map((s) => (
-                // <div key={s.start} style={{ marginBottom: 6 }}>
-                <div
-                  key={`${s.date}-${s.time}-${s.available}`}
-                  style={{ marginBottom: 6 }}
-                >
+                <div key={`${s.date}-${s.time}`} style={{ marginBottom: 6 }}>
                   <button
                     disabled={!s.available}
                     onClick={() =>
