@@ -46,7 +46,19 @@ function CalendarWeek({ refreshFlag, setRefreshFlag }) {
                     disabled={!s.available}
                     onClick={
                       // () => setSelectedSlot({ date: s.date, time: s.time })
-                      () => setSelectedSlot(s.start)
+                      // () => setSelectedSlot(s.start)
+                      () => {
+                        // ❌ remove the old direct assignment:
+                        // setSelectedSlot(s.start);
+
+                        // 🔁 new safe logic (handles Render UTC case)
+                        let d = new Date(s.start);
+                        if (d.getTimezoneOffset() === 0) {
+                          // Render/UTC env → subtract 5h 30m to align with IST
+                          d = new Date(d.getTime() - 5.5 * 60 * 60 * 1000);
+                        }
+                        setSelectedSlot(d.toISOString());
+                      }
                     }
                     style={{
                       width: "100%",
