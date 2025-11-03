@@ -1,8 +1,10 @@
 const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
 
-async function getAvailable(weekStart) {
-  const q = weekStart ? `?weekStart=${encodeURIComponent(weekStart)}` : "";
-  const res = await fetch(`${baseURL}/appointments/available${q}`);
+async function getAvailable() {
+  // const q = weekStart ? `?weekStart=${encodeURIComponent(weekStart)}` : "";
+  const res = await fetch(
+    `${baseURL}/appointments/available?nocache=${Date.now()}`
+  );
   return res.json();
 }
 
