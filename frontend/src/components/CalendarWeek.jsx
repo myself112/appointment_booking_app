@@ -24,6 +24,9 @@ function CalendarWeek({ refreshFlag, setRefreshFlag }) {
     grouped[s.date].push(s);
   });
 
+  useEffect(() => {
+    console.log("selecetedslot ::", selectedSlot);
+  }, [selectedSlot]);
   return (
     <div>
       <h2>Week view (Mon–Fri)</h2>

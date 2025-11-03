@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <div style={{ padding: 20 }}>
-        <h1>Appointment Booking (MVP)</h1>
+        <h1>Appointment Booking (MVP - TEST)</h1>
         <CalendarWeek
           refreshFlag={refreshFlag}
           setRefreshFlag={setRefreshFlag}
