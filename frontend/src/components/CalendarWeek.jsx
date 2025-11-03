@@ -75,8 +75,9 @@ function CalendarWeek({ refreshFlag, setRefreshFlag }) {
       {selectedSlot && (
         <BookingForm
           defaultStart={selectedSlot}
-          onDone={() => {
+          onDone={async () => {
             setSelectedSlot(null);
+            await new Promise((r) => setTimeout(r, 300)); // slight delay for DB update to reflect
             load();
             setRefreshFlag((p) => p + 1);
           }}
