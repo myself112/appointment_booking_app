@@ -41,7 +41,11 @@ function CalendarWeek({ refreshFlag, setRefreshFlag }) {
             >
               <h4>{date}</h4>
               {grouped[date].map((s) => (
-                <div key={s.start} style={{ marginBottom: 6 }}>
+                // <div key={s.start} style={{ marginBottom: 6 }}>
+                <div
+                  key={`${s.date}-${s.time}-${s.available}`}
+                  style={{ marginBottom: 6 }}
+                >
                   <button
                     disabled={!s.available}
                     onClick={() =>
